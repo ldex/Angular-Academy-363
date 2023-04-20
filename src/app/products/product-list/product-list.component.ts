@@ -1,5 +1,6 @@
 
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Product } from 'src/app/models/product.interface';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -10,8 +11,29 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductListComponent {
   title: string = 'Products';
-  products: Product[];
+ // products: Product[];
+  products$: Observable<Product[]>;
   selectedProduct: Product;
+
+  // Pagination
+  pageSize = 5;
+  start = 0;
+  end = this.pageSize;
+  currentPage = 1;
+
+  previousPage() {
+    this.start -= this.pageSize;
+    this.end -= this.pageSize;
+    this.currentPage--;
+    this.selectedProduct = null;
+  }
+
+  nextPage() {
+    this.start += this.pageSize;
+    this.end += this.pageSize;
+    this.currentPage++;
+    this.selectedProduct = null;
+  }
 
   onSelect(product: Product) {
     this.selectedProduct = product;
@@ -20,7 +42,13 @@ export class ProductListComponent {
   constructor(
     private productService: ProductService
   ) {
-    this.products = productService.getProducts();
+    this.products$ = productService.products$;
+
+    // productService
+    //   .products$
+    //   .subscribe(
+    //     data => this.products = data
+    //   )
   }
 
 }
