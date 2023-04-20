@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/models/product.interface';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -8,6 +10,20 @@ import { Product } from 'src/app/models/product.interface';
 })
 export class ProductDetailComponent {
 
-  @Input() product: Product;
+  product: Product;
+
+  constructor(
+    activatedRoute: ActivatedRoute,
+    productService: ProductService
+  ) {
+    const id = activatedRoute.snapshot.params.id;
+
+    productService
+      .getProductById(id)
+      .subscribe(
+        result => this.product = result
+      )
+
+  }
 
 }

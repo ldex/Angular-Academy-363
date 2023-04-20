@@ -17,14 +17,14 @@ import { ContactComponent } from './shared/contact.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     HttpClientModule,
     ProductsModule,
     HomeComponent,
     AdminComponent,
     ErrorComponent,
-    ContactComponent
+    ContactComponent,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
